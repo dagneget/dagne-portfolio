@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: var(--font-serif), 'Playfair Display', Georgia, serif;
+  --font-sans: var(--font-sans), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: var(--font-mono), 'Space Mono', 'Fragment Mono', Menlo, Consolas, monospace;
+}
+
+:root {
+  --bg: #0b0c0e;
+  --bg-deep: #060708;
+  --surface: #14161a;
+  --surface-hover: #181b20;
+  --border: #25272c;
+  --border-subtle: #1c1e23;
+  --border-highlight: #393d45;
+  --text: #f1f2ec;
+  --text-muted: #9197a0;
+  --text-dim: #606570;
+  --lime: #c6ff3d;
+  --lime-glow: rgba(198, 255, 61, 0.15);
+  --lime-dim: #9ecb31;
+  --violet: #8b7bff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Max Content Constraint matching Soren Hale reference */
+.wrap {
+  width: min(1200px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+@media (max-width: 640px) {
+  .wrap {
+    width: calc(100% - 32px);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0c0e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #25272c;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #393d45;
+}
+
+/* Focus Visible accessibility rings */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 2px;
+}
+
+/* Soren Hale Button Architecture */
+.sh-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  height: 48px;
+  padding: 0 16px 0 20px;
+  border-radius: 12px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.25s, border-color 0.25s, color 0.25s;
+}
+
+.sh-btn:hover {
+  transform: translateY(-2px);
+}
+
+.sh-btn:active {
+  transform: scale(0.98);
+}
+
+.sh-btn-solid {
+  background: var(--lime);
+  color: #0b0c0e;
+  border: 1px solid var(--lime);
+}
+
+.sh-btn-solid:hover {
+  background: #d6ff5e;
+  border-color: #d6ff5e;
+}
+
+.sh-btn-outline {
+  background: rgba(20, 22, 26, 0.7);
+  border: 1px solid var(--border);
+  color: var(--text);
+  backdrop-filter: blur(8px);
+}
+
+.sh-btn-outline:hover {
+  border-color: #393d45;
+  background: #181b20;
+}
+
+.sh-btn-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.sh-btn-outline .sh-btn-icon {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sh-btn-icon svg {
+  grid-area: 1/1;
+  transition: transform 0.45s cubic-bezier(0.3, 0.9, 0.2, 1);
+}
+
+.sh-btn-icon svg + svg {
+  transform: translateX(-30px);
+}
+
+.sh-btn:hover .sh-btn-icon svg {
+  transform: translateX(30px);
+}
+
+.sh-btn:hover .sh-btn-icon svg + svg {
+  transform: translateX(0);
+}
+
+/* Down arrow drop animation */
+@keyframes sh-drop {
+  40% { transform: translateY(20px); }
+  41% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+
+.sh-btn:hover .sh-btn-down svg {
+  animation: sh-drop 0.55s cubic-bezier(0.3, 0.9, 0.2, 1);
+}
+
+/* Soren Hale Diff Metric (before struck through in violet -> after in lime) */
+.sh-diff {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.2em 0.5em;
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 2.4vw, 36px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.sh-diff s {
+  color: #8b7bff;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.sh-diff b {
+  color: var(--lime);
+  font-weight: 700;
+}
+
+.sh-diff span {
+  font-family: var(--font-mono);
+  font-size: 0.45em;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-left: 2px;
+}
+
+/* Editorial Monogram & Coordinate Ambient Animations */
+@keyframes pulse-dot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.4;
+  }
+}
+
+/* Soren Hale Drawing Hairlines */
+.sh-rule-x {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  transform-origin: 0 0;
+  transform: scaleX(1);
+  transition: transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Soren Hale Headline Mask Rise */
+.sh-hd-w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.sh-hd-i {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: sh-hd-rise 0.85s cubic-bezier(0.16, 0.84, 0.24, 1) forwards;
+}
+
+@keyframes sh-hd-rise {
+  from { transform: translateY(110%); }
+  to { transform: translateY(0%); }
+}
+
+/* Caret blink */
+.sh-caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.95em;
+  margin-left: 0.15em;
+  background: var(--lime);
+  vertical-align: middle;
+  animation: sh-blink 1s steps(2, start) infinite;
+}
+
+@keyframes sh-blink {
+  50% { opacity: 0; }
+}
+
+/* Accessibility: Respect Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .sh-btn-icon svg + svg {
+    display: none !important;
+  }
+  .sh-btn:hover .sh-btn-icon svg {
+    transform: none !important;
+  }
+  .sh-hd-i {
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
